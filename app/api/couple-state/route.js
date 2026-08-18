@@ -14,6 +14,7 @@ const DEFAULT_STATE = {
   },
   presence: { ozioma: 0, joy: 0 },
   kiss: { id: '', from: '', at: 0 },
+  wishlist: [],
 };
 
 function freshState() {
@@ -82,6 +83,27 @@ function responsePayload(state, persistent) {
   };
 }
 
+function cleanWishlistItem(raw, user, now) {
+  const image = String(raw?.image || '');
+  const safeImage = image.startsWith('data:image/') && image.length <= 650000 ? image : '';
+  const title = String(raw?.title || '').trim().slice(0, 80);
+  if (!title) return null;
+
+  let link = String(raw?.link || '').trim().slice(0, 500);
+  if (link && !/^https?:\/\//i.test(link)) link = '';
+
+  return {
+    id: `${now}-${Math.random().toString(36).slice(2, 8)}`,
+    title,
+    price: String(raw?.price || '').trim().slice(0, 30),
+    link,
+    note: String(raw?.note || '').trim().slice(0, 160),
+    image: safeImage,
+    by: user,
+    at: now,
+  };
+}
+
 export async function GET(request) {
   const user = getUser(request);
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -105,6 +127,7 @@ export async function POST(request) {
   state.notes ||= freshState().notes;
   state.presence ||= freshState().presence;
   state.kiss ||= freshState().kiss;
+  state.wishlist ||= [];
 
   if (action === 'presence') {
     state.presence[user] = now;
@@ -120,6 +143,15 @@ export async function POST(request) {
       from: user,
       at: now,
     };
+  } else if (action === 'wishlist-add') {
+    if (user !== 'joy') return NextResponse.json({ error: 'Only Joy can add wishlist items.' }, { status: 403 });
+    const item = cleanWishlistItem(body.item, user, now);
+    if (!item) return NextResponse.json({ error: 'Item name is required.' }, { status: 400 });
+    state.wishlist = [item, ...state.wishlist].slice(0, 24);
+  } else if (action === 'wishlist-remove') {
+    if (user !== 'joy') return NextResponse.json({ error: 'Only Joy can remove wishlist items.' }, { status: 403 });
+    const id = String(body.id || '');
+    state.wishlist = state.wishlist.filter((item) => item.id !== id);
   } else {
     return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
   }
