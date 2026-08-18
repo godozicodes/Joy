@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
-// June 6, 2026 at 9:00 PM in Nigeria (WAT, UTC+1).
-const START_TIME = Date.UTC(2026, 5, 6, 20, 0, 0);
+// June 7, 2026 at 9:00 PM in Nigeria (WAT, UTC+1).
+const START_TIME = Date.UTC(2026, 5, 7, 20, 0, 0);
 const ONE_DAY = 1000 * 60 * 60 * 24;
 
 function getDaysTogether() {
@@ -20,8 +20,8 @@ export default function DaysTogether() {
   }, []);
 
   return (
-    <div className="days-card" aria-label={`${days} full days together since June 6, 2026 at 9 PM`}>
-      <span className="days-kicker">Since June 6, 2026 • 9:00 PM 💞</span>
+    <div className="days-card" aria-label={`${days} full days together since June 7, 2026 at 9 PM`}>
+      <span className="days-kicker">Since June 7, 2026 • 9:00 PM 💞</span>
       <strong className="days-number">{days}</strong>
       <span className="days-label">full days of us & counting</span>
       <span className="days-note">Every new day with us begins at 9 PM.</span>
