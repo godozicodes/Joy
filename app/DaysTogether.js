@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from 'react';
 
-const START_DATE = new Date(2026, 5, 3);
+// June 3, 2026 at 9:00 PM in Nigeria (WAT, UTC+1).
+const START_TIME = Date.UTC(2026, 5, 3, 20, 0, 0);
+const ONE_DAY = 1000 * 60 * 60 * 24;
 
 function getDaysTogether() {
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const oneDay = 1000 * 60 * 60 * 24;
-  return Math.max(0, Math.floor((today - START_DATE) / oneDay));
+  return Math.max(0, Math.floor((Date.now() - START_TIME) / ONE_DAY));
 }
 
 export default function DaysTogether() {
@@ -21,11 +20,11 @@ export default function DaysTogether() {
   }, []);
 
   return (
-    <div className="days-card" aria-label={`${days} days together since June 3, 2026`}>
-      <span className="days-kicker">Since June 3, 2026 💞</span>
+    <div className="days-card" aria-label={`${days} full days together since June 3, 2026 at 9 PM`}>
+      <span className="days-kicker">Since June 3, 2026 • 9:00 PM 💞</span>
       <strong className="days-number">{days}</strong>
-      <span className="days-label">days of us & counting</span>
-      <span className="days-note">And I’d still choose you from day one.</span>
+      <span className="days-label">full days of us & counting</span>
+      <span className="days-note">Every new day with us begins at 9 PM.</span>
     </div>
   );
 }
