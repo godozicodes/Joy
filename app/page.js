@@ -1,3 +1,5 @@
+import DaysTogether from './DaysTogether';
+
 export default function Home() {
   return (
     <main className="shell">
@@ -11,6 +13,9 @@ export default function Home() {
           <div style={{fontSize:'3rem'}}>💗</div>
           <h1>My Dearest <span className="pink">Joy</span></h1>
           <p className="lead">This little corner of the internet belongs to only two people: you and me. A private place for our memories, our jokes, our pictures, and everything beautiful we keep building together.</p>
+
+          <DaysTogether />
+
           <div className="grid">
             <div className="mini"><h2>How we began</h2><p className="muted">June 3rd — the day everything changed for the better.</p></div>
             <div className="mini"><h2>What you are to me</h2><p className="muted">My peace, my happiness, and the person who makes ordinary days feel special.</p></div>
