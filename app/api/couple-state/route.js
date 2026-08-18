@@ -15,6 +15,7 @@ const DEFAULT_STATE = {
   presence: { ozioma: 0, joy: 0 },
   kiss: { id: '', from: '', at: 0 },
   wishlist: [],
+  memories: [],
 };
 
 function freshState() {
@@ -128,6 +129,7 @@ export async function POST(request) {
   state.presence ||= freshState().presence;
   state.kiss ||= freshState().kiss;
   state.wishlist ||= [];
+  state.memories ||= [];
 
   if (action === 'presence') {
     state.presence[user] = now;
@@ -152,6 +154,18 @@ export async function POST(request) {
     if (user !== 'joy') return NextResponse.json({ error: 'Only Joy can remove wishlist items.' }, { status: 403 });
     const id = String(body.id || '');
     state.wishlist = state.wishlist.filter((item) => item.id !== id);
+  } else if (action === 'memory-add') {
+    const value = String(body.value || '').trim().slice(0, 220);
+    if (!value) return NextResponse.json({ error: 'Write a memory first.' }, { status: 400 });
+    state.memories = [
+      {
+        id: `${now}-${Math.random().toString(36).slice(2, 8)}`,
+        text: value,
+        by: user,
+        at: now,
+      },
+      ...state.memories,
+    ].slice(0, 120);
   } else {
     return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
   }
