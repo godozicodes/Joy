@@ -42,13 +42,15 @@ function lagosDateParts(now) {
   return Object.fromEntries(parts.filter((part) => part.type !== 'literal').map((part) => [part.type, Number(part.value)]));
 }
 
-function nextBirthday(now) {
+function birthdayInfo(now) {
   const { year, month, day } = lagosDateParts(now);
-  const birthdayHasStarted = month > 3 || (month === 3 && day >= 11);
-  const targetYear = birthdayHasStarted ? year + 1 : year;
-  // March 11, 12:00 AM WAT = March 10, 11:00 PM UTC.
+  const isBirthday = month === 3 && day === 11;
+  const targetYear = month > 3 || (month === 3 && day > 11) ? year + 1 : year;
+
   return {
+    isBirthday,
     year: targetYear,
+    // March 11, 12:00 AM WAT = March 10, 11:00 PM UTC.
     time: Date.UTC(targetYear, 2, 10, 23, 0, 0),
   };
 }
@@ -63,7 +65,7 @@ export default function LoveExtras({ user }) {
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState('');
 
-  const birthday = useMemo(() => nextBirthday(now), [now]);
+  const birthday = useMemo(() => birthdayInfo(now), [now]);
   const birthdayLeft = splitDuration(birthday.time - now);
 
   const loadMemories = async () => {
@@ -142,18 +144,23 @@ export default function LoveExtras({ user }) {
         <h2>Small things that keep us close 💞</h2>
       </div>
 
-      <div className="birthday-card glass-panel">
+      <div className={`birthday-card glass-panel ${birthday.isBirthday ? 'birthday-today' : ''}`}>
         <div className="birthday-copy">
-          <span className="eyebrow">JOY’S NEXT BIRTHDAY 🎂</span>
-          <h3>March 11, {birthday.year}</h3>
-          <p>Counting every second until your day. 💗</p>
+          <span className="eyebrow">{birthday.isBirthday ? 'TODAY IS HER DAY 🎉' : 'JOY’S NEXT BIRTHDAY 🎂'}</span>
+          <h3>{birthday.isBirthday ? 'HAPPY BIRTHDAY JOY!!! 🥹💗' : `March 11, ${birthday.year}`}</h3>
+          <p>{birthday.isBirthday ? 'Today belongs to you, pretty girl. Enjoy every second of it. 🎂💕' : 'Counting every second until your day. 💗'}</p>
         </div>
-        <div className="birthday-timer" aria-label={`${birthdayLeft.days} days until Joy's birthday`}>
-          <div><strong>{birthdayLeft.days}</strong><span>days</span></div>
-          <div><strong>{String(birthdayLeft.hours).padStart(2, '0')}</strong><span>hours</span></div>
-          <div><strong>{String(birthdayLeft.minutes).padStart(2, '0')}</strong><span>mins</span></div>
-          <div><strong>{String(birthdayLeft.seconds).padStart(2, '0')}</strong><span>secs</span></div>
-        </div>
+
+        {birthday.isBirthday ? (
+          <div className="birthday-celebration" aria-label="Happy birthday Joy">🎂 🎉 💗 ✨ 🎈</div>
+        ) : (
+          <div className="birthday-timer" aria-label={`${birthdayLeft.days} days until Joy's birthday`}>
+            <div><strong>{birthdayLeft.days}</strong><span>days</span></div>
+            <div><strong>{String(birthdayLeft.hours).padStart(2, '0')}</strong><span>hours</span></div>
+            <div><strong>{String(birthdayLeft.minutes).padStart(2, '0')}</strong><span>mins</span></div>
+            <div><strong>{String(birthdayLeft.seconds).padStart(2, '0')}</strong><span>secs</span></div>
+          </div>
+        )}
       </div>
 
       <div className="extras-grid">
