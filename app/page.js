@@ -42,6 +42,16 @@ export default async function Home() {
       <LoveExtras user={user} />
       <CoupleLive user={user} />
 
+      <section className="goodbye-card glass-panel">
+        <div className="goodbye-heart" aria-hidden="true">💗</div>
+        <span className="eyebrow">UNTIL NEXT TIME</span>
+        <h2>Done being adorable for now? 😭</h2>
+        <p>You can leave our little world safely and come back whenever you want.</p>
+        <form action="/api/logout" method="post">
+          <button className="goodbye-logout" type="submit">Log out of our world 🔐</button>
+        </form>
+      </section>
+
       <footer className="footer">Made with love by Ozioma, only for Joy ❤️</footer>
     </main>
   );
