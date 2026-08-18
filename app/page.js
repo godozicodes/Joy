@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import DaysTogether from './DaysTogether';
 import CoupleLive from './CoupleLive';
+import LoveList from './LoveList';
 
 export default async function Home() {
   const cookieStore = await cookies();
@@ -34,6 +35,7 @@ export default async function Home() {
         </div>
       </section>
 
+      <LoveList />
       <CoupleLive user={user} />
 
       <footer className="footer">Made with love by Ozioma, only for Joy ❤️</footer>
