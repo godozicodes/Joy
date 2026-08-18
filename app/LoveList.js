@@ -1,3 +1,5 @@
+import styles from './LoveList.module.css';
+
 const things = [
   { icon: '👀', text: 'Your eyes' },
   { icon: '😊', text: 'Your pretty smile' },
@@ -11,18 +13,18 @@ const things = [
 
 export default function LoveList() {
   return (
-    <section className="love-list-section">
-      <div className="love-list-heading">
-        <span className="eyebrow">JUST SO YOU NEVER FORGET</span>
+    <section className={styles.section}>
+      <div className={styles.heading}>
+        <span className={styles.eyebrow}>JUST SO YOU NEVER FORGET</span>
         <h2>Things I love about my girl 💗</h2>
         <p>Yeah, I notice all of it. Every single bit. 😭</p>
       </div>
 
-      <div className="love-list-grid">
+      <div className={styles.grid}>
         {things.map((thing, index) => (
-          <article className="love-list-item" key={thing.text}>
-            <span className="love-list-number">{String(index + 1).padStart(2, '0')}</span>
-            <span className="love-list-icon" aria-hidden="true">{thing.icon}</span>
+          <article className={styles.item} key={thing.text}>
+            <span className={styles.number}>{String(index + 1).padStart(2, '0')}</span>
+            <span className={styles.icon} aria-hidden="true">{thing.icon}</span>
             <strong>{thing.text}</strong>
           </article>
         ))}
