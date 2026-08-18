@@ -1,4 +1,5 @@
 import './globals.css';
+import './love-extras.css';
 
 export const metadata = {
   title: 'For Joy ❤️',
