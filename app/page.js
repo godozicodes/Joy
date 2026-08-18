@@ -1,11 +1,20 @@
+import { cookies } from 'next/headers';
 import DaysTogether from './DaysTogether';
+import CoupleLive from './CoupleLive';
 
-export default function Home() {
+export default async function Home() {
+  const cookieStore = await cookies();
+  const user = cookieStore.get('joy_user')?.value === 'joy' ? 'joy' : 'ozioma';
+  const visitorName = user === 'joy' ? 'Joy' : 'Ozioma';
+
   return (
     <main className="shell">
       <div className="topbar">
         <strong>Ozioma × Joy ❤️</strong>
-        <form action="/api/logout" method="post"><button className="btn secondary">Log out</button></form>
+        <div className="topbar-actions">
+          <span className="signed-in">Hi, {visitorName} 💗</span>
+          <form action="/api/logout" method="post"><button className="btn secondary">Log out</button></form>
+        </div>
       </div>
 
       <section className="hero">
@@ -17,13 +26,16 @@ export default function Home() {
           <DaysTogether />
 
           <div className="grid">
-            <div className="mini"><h2>How we began</h2><p className="muted">June 3rd — the day everything changed for the better.</p></div>
+            <div className="mini"><h2>How we began</h2><p className="muted">June 7th at 9:00 PM — the exact moment our clock started. 💞</p></div>
             <div className="mini"><h2>What you are to me</h2><p className="muted">My peace, my happiness, and the person who makes ordinary days feel special.</p></div>
-            <div className="mini"><h2>Our little world</h2><p className="muted">Photos, letters, music, countdowns and surprises will live here.</p></div>
+            <div className="mini"><h2>Our little world</h2><p className="muted">Live moods, notes, countdowns, kisses and all the tiny things that make this ours.</p></div>
           </div>
           <p className="lead pink"><strong>I choose you, every single time.</strong></p>
         </div>
       </section>
+
+      <CoupleLive user={user} />
+
       <footer className="footer">Made with love by Ozioma, only for Joy ❤️</footer>
     </main>
   );
