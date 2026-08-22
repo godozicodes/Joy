@@ -1,6 +1,5 @@
 import { cookies } from 'next/headers';
 import DaysTogether from './DaysTogether';
-import CoupleLive from './CoupleLive';
 import LoveList from './LoveList';
 import Wishlist from './Wishlist';
 import LoveExtras from './LoveExtras';
@@ -40,7 +39,6 @@ export default async function Home() {
       <LoveList />
       <Wishlist user={user} />
       <LoveExtras user={user} />
-      <CoupleLive user={user} />
 
       <section className="goodbye-card glass-panel">
         <div className="goodbye-heart" aria-hidden="true">💗</div>
