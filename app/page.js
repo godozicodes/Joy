@@ -4,6 +4,8 @@ import LoveList from './LoveList';
 import Wishlist from './Wishlist';
 import LoveExtras from './LoveExtras';
 
+export const revalidate = 0;
+
 export default async function Home() {
   const cookieStore = await cookies();
   const user = cookieStore.get('joy_user')?.value === 'joy' ? 'joy' : 'ozioma';
@@ -30,7 +32,7 @@ export default async function Home() {
           <div className="grid">
             <div className="mini"><h2>How we began</h2><p className="muted">June 7th at 9:00 PM — the exact moment our clock started. 💞</p></div>
             <div className="mini"><h2>What you are to me</h2><p className="muted">My peace, my happiness, and the person who makes ordinary days feel special.</p></div>
-            <div className="mini"><h2>Our little world</h2><p className="muted">Live moods, notes, countdowns, kisses, memories and all the tiny things that make this ours.</p></div>
+            <div className="mini"><h2>Our little world</h2><p className="muted">Memories, wishes, countdowns and all the tiny things that make this ours.</p></div>
           </div>
           <p className="lead pink"><strong>I choose you, every single time.</strong></p>
         </div>
